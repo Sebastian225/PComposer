@@ -1,0 +1,15 @@
+C4 eighth
+D4 eighth
+E4 eighth
+F4 eighth-point
+G4 32th
+F4 32th
+E4 eighth
+A4 eighth
+D4 eighth
+G4 eighth
+G4 sixteenth
+A4 sixteenth
+G4 sixteenth
+F4 sixteenth
+E4 half

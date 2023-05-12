@@ -1,0 +1,14 @@
+D#4 quarter
+A#4 quarter-point
+B4 eighth
+A#4 eighth
+G#4 eighth
+F#4 eighth
+G#4 eighth
+A#4 quarter
+D#4 quarter
+G#4 quarter
+G#4 eighth
+F#4 eighth
+F4 quarter
+D#4 half

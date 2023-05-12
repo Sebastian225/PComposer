@@ -1,0 +1,8 @@
+G4 eighth
+G4 eighth
+A4 eighth
+B4 eighth
+G4 eighth
+B4 eighth
+A4 eighth
+D4 eighth
