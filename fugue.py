@@ -8,12 +8,14 @@ class Note:
     pitch: midi pitch \n
     duration: in ticks
     """
-
-    def __init__(self, pitch: int, duration: int):
+    def __init__(self, pitch: int, duration: int, is_empty=False):
         self.pitch = pitch
         self.duration = duration
+        self.is_empty = is_empty
 
     def get_midi_messages(self, velocity=64):
+        if self.is_empty:
+            velocity = 0
         return [Message('note_on', channel=0, note=self.pitch, velocity=velocity, time=0),
                 Message('note_off', channel=0, note=self.pitch, velocity=velocity, time=self.duration)]
 
@@ -25,7 +27,7 @@ class Subject:
         self.notes = []
         for line in file:
             note = line.split()
-            self.notes.append(Note(note_value[note[0]], note_duration[note[1]]))
+            self.notes.append(Note(note_value[note[0]], note_duration[note[1]], note[0] == "empty"))
 
 
 def modulate(notes: [Note], key_from, key_to, direction):

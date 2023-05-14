@@ -18,7 +18,8 @@ def get_input_vector(notes: [Note]):
     result = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     for note in notes:
         # 120 because we want to get 0.5 = quarter note duration (just like in the example)
-        result[note.pitch % 12] += 60 / note.duration / 2
+        if note.pitch != 0:
+            result[note.pitch % 12] += 60 / note.duration / 2
 
     return result
 

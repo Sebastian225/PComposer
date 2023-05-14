@@ -1,0 +1,13 @@
+empty eighth
+D5 eighth
+Eb5 eighth
+G4 eighth
+F#4 quarter
+G4 quarter
+empty eighth
+A4 sixteenth
+Bb4 sixteenth
+C5 eighth
+Bb4 sixteenth
+A4 sixteenth
+Bb4 half

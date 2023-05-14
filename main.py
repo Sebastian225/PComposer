@@ -55,7 +55,9 @@ def play_track(track: MidiTrack):
 # input_file = open("test_subjects/subject_bwv_846.txt")  # C major
 # input_file = open("test_subjects/subject_bwv_848.txt")  # C# major
 # input_file = open("test_subjects/subject_bwv_853.txt")  # D# minor (Eb minor)
-input_file = open("test_subjects/subject_little_fugue.txt")  # G minor
+# input_file = open("test_subjects/subject_little_fugue.txt")  # G minor
+input_file = open("test_subjects/subject_bwv_861.txt")  # G minor, alg crede ca e A# major adica relativa
+# input_file = open("test_subjects/kingdom_of_cold_flesh.txt")  # A# minor
 
 subject = Subject(input_file)
 answer = Answer(subject, True)
@@ -64,11 +66,11 @@ messages_list = []
 for note in subject.notes:
     messages_list.extend(note.get_midi_messages())
 
-for note in answer.notes:
-    messages_list.extend(note.get_midi_messages())
-
-for note in bass_subject:
-    messages_list.extend(note.get_midi_messages())
+# for note in answer.notes:
+#     messages_list.extend(note.get_midi_messages())
+#
+# for note in bass_subject:
+#     messages_list.extend(note.get_midi_messages())
 
 # every track must have this, will make a function later
 messages_list[0].time += 120
