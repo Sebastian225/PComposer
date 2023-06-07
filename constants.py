@@ -71,7 +71,21 @@ note_value = {
     'C6': 84,
     'C#6': 85,
     'Db6': 85,
-    'D6': 86
+    'D6': 86,
+    'D#6': 87,
+    'Eb6': 87,
+    'E6': 88,
+    'F6': 89,
+    'F#6': 90,
+    'Gb6': 90,
+    'G6': 91,
+    'G#6': 92,
+    'Ab6': 92,
+    'A6': 93,
+    'A#6': 94,
+    'Bb6': 94,
+    'B6': 95,
+    'C7': 96
 }
 
 note_duration = {
@@ -107,3 +121,43 @@ keys_indexes = {
 indexes_keys = [
     'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'
 ]
+
+major_degrees = [0, 2, 4, 5, 7, 9, 11]
+
+major_degrees_to_index = {
+    0: 0,
+    2: 1,
+    4: 2,
+    5: 3,
+    7: 4,
+    9: 5,
+    11: 6
+}
+
+minor_degrees = [0, 2, 3, 5, 7, 8, 10]
+
+minor_degrees_to_index = {
+    0: 0,
+    2: 1,
+    3: 2,
+    5: 3,
+    7: 4,
+    8: 5,
+    10: 6
+}
+
+is_consonant_interval = {  # true = consonant
+    0: True,   # Unison
+    1: False,  # Minor second
+    2: False,  # Major second
+    3: True,  # Minor third
+    4: True,   # Major third
+    5: False,   # Perfect fourth
+    6: False,  # Augmented fourth / Diminished fifth (tritone)
+    7: True,   # Perfect fifth
+    8: True,  # Minor sixth
+    9: True,   # Major sixth
+    10: False,  # Minor seventh
+    11: False,  # Major seventh
+    12: True   # Octave
+}

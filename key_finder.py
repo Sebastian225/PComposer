@@ -71,3 +71,13 @@ def get_key(score):
             key = k
 
     return key
+
+
+def get_key_formatted_from_notes(notes):
+    """
+    formats the result of the get_key function to return the tonic and the is_major bool
+    """
+    result = get_key(get_score(get_input_vector(notes))).split(' ')
+    is_major = True if result[1] == 'major' else False
+    return result[0], is_major
+
