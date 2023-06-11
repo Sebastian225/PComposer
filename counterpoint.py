@@ -6,14 +6,15 @@ from fugue import Note
 from constants import *
 from key_finder import get_key_formatted_from_notes
 
-POPULATION_SIZE = 20  # 20
-NUMBER_OF_GENERATIONS = 50  # 50
+POPULATION_SIZE = 300  # 20
+NUMBER_OF_GENERATIONS = 20  # 50
 # mutations
-MERGE_RATE = 0.01
-DUPLICATION_RATE = 0.005
-MUTATION_RATE = 0.05
+MERGE_RATE = 0.3
+DUPLICATION_RATE = 0.05
+MUTATION_RATE = 0.2
 # other constants, melody-specific
 SCALE = []
+EMPTY_NOTE_RATE = 0.1
 
 
 def get_total_duration(notes: [Note]):
@@ -36,8 +37,7 @@ def generate_random_genome(total_duration: int, key: str, is_major: bool, octave
     scale = major_degrees if is_major else minor_degrees
     global SCALE
     SCALE = major_degrees if is_major else minor_degrees
-    # durations = ['half', 'quarter', 'quarter', 'eighth', 'eighth', 'eighth', 'eighth', 'sixteenth', 'sixteenth', 'sixteenth', 'sixteenth']
-    durations = ['half', 'quarter', 'quarter', 'eighth', 'sixteenth']
+    durations = ['half', 'quarter', 'eighth', 'sixteenth', 'quarter-point', 'eighth-point']
     notes = []
     last_note = None
 
@@ -65,8 +65,11 @@ def generate_random_genome(total_duration: int, key: str, is_major: bool, octave
             else:
                 pitch = last_note.pitch + 2 * sign
 
-        notes.append(Note(pitch, note_duration[duration]))
-        last_note = Note(pitch, note_duration[duration])
+        is_empty = random.random() < EMPTY_NOTE_RATE
+
+        notes.append(Note(pitch, note_duration[duration], is_empty))
+        if not is_empty:
+            last_note = Note(pitch, note_duration[duration])
 
         total_duration -= note_duration[duration]
     # print(get_total_duration(notes))
@@ -88,13 +91,13 @@ def mutate(notes):
             second_note = note
             if random.random() < MERGE_RATE:
                 desired_note = random.choice([first_note, second_note])
-                notes[idx + 1] = Note(desired_note.pitch, desired_note.duration)
-                del notes[idx]
+                notes[idx] = Note(desired_note.pitch, first_note.duration + second_note.duration, desired_note.is_empty)
+                del notes[idx + 1]
 
     # second type mutation: the split of notes
     for idx, note in enumerate(notes):
-        if random.random() < DUPLICATION_RATE:
-            notes.insert(idx + 1, Note(note.pitch, note.duration / 2))
+        if random.random() < DUPLICATION_RATE and note.duration >= note_duration['eighth'] and note.duration not in {1440, 720, 360, 180}:
+            notes.insert(idx + 1, Note(note.pitch, note.duration / 2, note.is_empty))
             notes[idx].duration /= 2
 
     # third mutation, pitch shift
@@ -127,8 +130,8 @@ def crossover(genome1: [Note], genome2: [Note]):
             saved_notes1.append(note1)
         elif target_duration_split1 < note1.duration:
             # split note here, to keep the bars integrity
-            new_genome1.append(Note(note1.pitch, target_duration_split1))
-            saved_notes1.append(Note(note1.pitch, note1.duration - target_duration_split1))
+            new_genome1.append(Note(note1.pitch, target_duration_split1, note1.is_empty))
+            saved_notes1.append(Note(note1.pitch, note1.duration - target_duration_split1, note1.is_empty))
             target_duration_split1 = 0
 
     for note2 in genome2:
@@ -139,8 +142,8 @@ def crossover(genome1: [Note], genome2: [Note]):
             saved_notes2.append(note2)
         elif target_duration_split2 < note2.duration:
             # split note here, to keep the bars integrity
-            new_genome2.append(Note(note2.pitch, target_duration_split2))
-            saved_notes2.append(Note(note2.pitch, note2.duration - target_duration_split2))
+            new_genome2.append(Note(note2.pitch, target_duration_split2, note2.is_empty))
+            saved_notes2.append(Note(note2.pitch, note2.duration - target_duration_split2, note2.is_empty))
             target_duration_split2 = 0
 
     new_genome1.extend(saved_notes2)
@@ -156,11 +159,11 @@ def get_pitches_list(notes1, notes2):
 
     for i, (note1, note2) in enumerate(zip(butchered_notes1, butchered_notes2)):
         if note1.duration < note2.duration:
-            new_note = Note(note2.pitch, note2.duration - note1.duration)
+            new_note = Note(note2.pitch, note2.duration - note1.duration, note2.is_empty)
             butchered_notes2.insert(i + 1, new_note)
             note2.duration = note1.duration
         elif note1.duration > note2.duration:
-            new_note = Note(note1.pitch, note1.duration - note2.duration)
+            new_note = Note(note1.pitch, note1.duration - note2.duration, note1.is_empty)
             butchered_notes1.insert(i + 1, new_note)
             note1.duration = note2.duration
 
@@ -174,9 +177,46 @@ def fitness(genome: [Note], base_notes: [Note]):
     last_interval = None
     score = 300
 
+    lowest_note = min([note.pitch for note in genome])
+    highest_note = max([note.pitch for note in genome])
+    duration_set = set([n.duration for n in genome])
+
+    last_note = genome[0]
+
+    if highest_note - lowest_note > 16:
+        score -= 20 * (highest_note - lowest_note)
+    if last_note.duration != 360 and last_note.duration != 180:
+        score += 5
+
+    duration = last_note.duration
+    # score += len(genome)
+    score += len(duration_set) * 150
+
+    key, is_major = get_key_formatted_from_notes(base_notes)
+
+    # melody evaluation
+    for note in genome[1:]:
+        if note.duration not in note_duration_names:
+            return 0
+        duration += note.duration
+        if duration % note_duration['quarter'] == 0:
+            score += 300
+        if note.duration != 360 and note.duration != 180:
+            score += 5
+        if abs(last_note.pitch - note.pitch) > 4:
+            score -= (last_note.pitch - note.pitch)**2
+        if last_note.duration == note.duration:
+            score += 75
+        if note.is_empty:
+            score -= 50
+        if not is_in_scale(note.pitch, key, is_major):
+            score -= 300
+        last_note = note
+
+    # interval evaluation
     x, y, duration = intervals[-1]
     if x != 0 and y != 0 and is_consonant_interval[abs(x - y) % 12] is False:
-        score -= 40
+        score -= 70
 
     for x, y, duration in intervals:
         if x == 0 or y == 0:
@@ -185,20 +225,19 @@ def fitness(genome: [Note], base_notes: [Note]):
         actual_interval = abs(x - y)
         if last_interval is not None:
             # check parallel fifths or octaves/unisons
-            if last_interval == current_interval and (current_interval == 0 or current_interval == 7):
-                score -= 50
+            if last_interval == current_interval and (current_interval == 0 or current_interval == 7 or current_interval == 5):
+                score -= 150
             if is_consonant_interval[last_interval] is False and is_consonant_interval[current_interval] is False and duration >= note_duration['quarter']:
-                score -= 10
+                score -= 120
             if actual_interval == 1 or actual_interval == 2:
-                score -= 3
+                score -= 50
             # if is_consonant_interval[current_interval]
 
         last_interval = current_interval
-    print(score)
     return score
 
 
-def driver(base_notes):
+def generate_counterpoint(base_notes):
     population = []
     for i in range(POPULATION_SIZE):
         genome = generate_random_genome_from_notes(base_notes)
@@ -208,9 +247,11 @@ def driver(base_notes):
         print("****************************************************************************************************")
         print("GENERATION " + str(i))
         last_population = sorted(population, key=lambda g: fitness(g, base_notes), reverse=True)
+        print(f"BEST SCORE: {fitness(last_population[0], base_notes)}")
+        print(f"AVERAGE SCORE: {(sum([fitness(g, base_notes) for g in last_population]) / POPULATION_SIZE)}")
         population = [last_population[0]]
         elites_count = 1
-        if POPULATION_SIZE % 2 is 0:
+        if POPULATION_SIZE % 2 == 0:
             population.append(last_population[1])
             elites_count = 2
         for j in range(elites_count, POPULATION_SIZE - 1, 2):

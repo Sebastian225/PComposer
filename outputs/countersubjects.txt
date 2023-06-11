@@ -1,0 +1,74 @@
+SUBJECT: subject.txt
+
+COUNTERSUBJECT1
+
+68 quarter-point
+67 eighth
+63 eighth
+63 eighth
+63 quarter
+70 eighth
+68 eighth
+70 quarter
+68 quarter
+68 quarter
+70 sixteenth
+empty sixteenth
+
+COUNTERSUBJECT2
+
+68 sixteenth
+70 eighth-point
+65 quarter-point
+67 sixteenth
+67 sixteenth
+68 eighth
+65 eighth
+63 eighth
+65 eighth
+65 half
+70 quarter
+empty eighth
+
+SUBJECT: subject.txt
+
+COUNTERSUBJECT1
+
+60 sixteenth
+62 sixteenth
+empty sixteenth
+empty sixteenth
+75 half
+60 eighth
+60 sixteenth
+60 sixteenth
+63 sixteenth
+63 sixteenth
+75 sixteenth
+75 sixteenth
+75 sixteenth
+70 eighth-point
+75 quarter
+empty quarter
+72 sixteenth
+72 sixteenth
+
+COUNTERSUBJECT2
+
+60 quarter-point
+67 eighth
+63 eighth
+62 sixteenth
+63 sixteenth
+63 quarter
+65 eighth
+63 eighth
+67 quarter
+65 sixteenth
+62 quarter
+65 sixteenth
+62 sixteenth
+62 sixteenth
+63 sixteenth
+65 sixteenth
+

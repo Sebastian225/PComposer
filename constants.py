@@ -103,6 +103,21 @@ note_duration = {
     '32th-point': 45
 }
 
+note_duration_names = {
+    960: 'full',
+    1440: 'full-point',
+    480: 'half',
+    720: 'half-point',
+    240: 'quarter',
+    360: 'quarter-point',
+    120: 'eighth',
+    180: 'eighth-point',
+    60: 'sixteenth',
+    90: 'sixteenth-point',
+    30: '32th',
+    45: '32th-point'
+}
+
 keys_indexes = {
     'C': 0,
     'C#': 1,
@@ -141,6 +156,7 @@ minor_degrees_to_index = {
     2: 1,
     3: 2,
     5: 3,
+    6: 4,
     7: 4,
     8: 5,
     10: 6
@@ -154,7 +170,7 @@ is_consonant_interval = {  # true = consonant
     4: True,   # Major third
     5: False,   # Perfect fourth
     6: False,  # Augmented fourth / Diminished fifth (tritone)
-    7: True,   # Perfect fifth
+    7: False,   # Perfect fifth # treat fifth as dissonant because invertible counterpoint
     8: True,  # Minor sixth
     9: True,   # Major sixth
     10: False,  # Minor seventh

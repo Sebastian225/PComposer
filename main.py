@@ -3,10 +3,13 @@ from mido import MidiFile, tick2second, MidiTrack, bpm2tempo, tempo2bpm
 from fugue import *
 from key_finder import *
 from counterpoint import *
+from structure_parser import *
 
 s = Session()
 # piano = s.new_part('church organ')  # pt little fugue
 piano = s.new_part('piano')
+# piano = s.new_part('clarinet')
+# piano = s.new_part('guitar')
 # piano.play_note(60, 0.8, 1) # C4
 # piano.play_note(72, 0.8, 1)
 # piano.play_note(84, 0.8, 1)
@@ -25,15 +28,17 @@ piano = s.new_part('piano')
 
 # play_scale('E', 'minor')
 
-fugue = MidiFile('Fugue1.mid')
+fugue = MidiFile('outputs/result1.midi')
 tempo = 0
+fugue.ticks_per_beat = 240
+fugue.save("outputs/result1.midi")
 
 
 def play_track(track: MidiTrack):
     global tempo
     notes_playing = {}
     for msg in track:
-        wait(tick2second(msg.time, fugue.ticks_per_beat, tempo), "time")
+        wait(tick2second(msg.time, 240, tempo), "time")
         if msg.is_meta:
             if msg.type == 'set_tempo':
                 tempo = msg.tempo
@@ -61,12 +66,12 @@ input_file = open("test_subjects/subject.txt")  # C minor
 # input_file = open("test_subjects/kingdom_of_cold_flesh.txt")  # A# minor
 # input_file = open("test_subjects/nothing_else_matters.txt")  # E minor
 
-subject = Subject(input_file)
-answer = Answer(subject, True)
-bass_subject = modulate(subject.notes, "C", "C", "down")
-messages_list = []
-for note in subject.notes:
-    messages_list.extend(note.get_midi_messages())
+# subject = Subject(input_file)
+# answer = Answer(subject, True)
+# bass_subject = modulate(subject.notes, "C", "C", "down")
+# messages_list = []
+# for note in subject.notes:
+#     messages_list.extend(note.get_midi_messages())
 
 # for note in answer.notes:
 #     messages_list.extend(note.get_midi_messages())
@@ -79,38 +84,62 @@ for note in subject.notes:
 #     messages_list.extend(note.get_midi_messages())
 
 # every track must have this, will make a function later
-messages_list[0].time += 120
+# messages_list[0].time += 120
 
 tempo = 600000
 
 # print(get_key(get_score(get_input_vector(subject.notes))))
 
-key, is_major = get_key_formatted_from_notes(subject.notes)
-
 # cs = generate_counterpoint(subject.notes, key, is_major)
-cs = generate_random_genome_from_notes(subject.notes)
-get_pitches_list(cs, subject.notes)
-cs = driver(subject.notes)
-cs_messages = []
-for note in cs:
-    cs_messages.extend(note.get_midi_messages())
+# cs = generate_random_genome_from_notes(subject.notes)
+# get_pitches_list(cs, subject.notes)
+# cs = generate_counterpoint(subject.notes)
 
-cs_messages[0].time += 120
 
-# subject one octave lower for test
-# test = modulate(subject.notes, 'C', 'C', 'down')
-# test_messages = []
-# for note in test:
-#     test_messages.extend(note.get_midi_messages())
+# write_notes(cs)
+
+# cs_messages = []
+# for note in cs:
+#     cs_messages.extend(note.get_midi_messages())
+#
+# cs_messages[0].time += 120
+
+# cs2 = generate_counterpoint(cs)
+# cs2_messages = []
+# for note in cs2:
+#     cs2_messages.extend(note.get_midi_messages())
+#
+# cs2_messages[0].time += 120
 
 # print(get_pitches_list(cs, subject.notes))
-# print(fitness(cs, subject.notes))
 
-play_track(MidiTrack(messages_list))
-s.fork(play_track, args=([MidiTrack(messages_list)]))
-s.fork(play_track, args=([MidiTrack(cs_messages)]))
+# parse_structure("structures/3-part.txt")
+# key, is_major = get_key_formatted_from_notes(subject.notes)
+# relative_subject = modulate_to_relative(subject.notes, key, is_major)
+# rs_msg = []
+# for note in relative_subject:
+#     # print(note.pitch)
+#     rs_msg.extend(note.get_midi_messages())
+
+# play_track(MidiTrack(messages_list))
+# play_track(MidiTrack(rs_msg))
+
+# play_track(MidiTrack(messages_list))
+# s.fork(play_track, args=([MidiTrack(messages_list)]))
+# s.fork(play_track, args=([MidiTrack(cs_messages)]))
+# s.wait_for_children_to_finish()
+# play_track(MidiTrack(cs_messages))
+#
+# s.fork(play_track, args=([MidiTrack(messages_list)]))
+# s.fork(play_track, args=([MidiTrack(cs_messages)]))
+# s.fork(play_track, args=([MidiTrack(cs2_messages)]))
+# s.wait_for_children_to_finish()
+
+all_tracks = build_fugue("test_subjects/subject.txt", "structures/3-part.txt")
+midi_tracks = get_midi_tracks(all_tracks)
+for track in midi_tracks:
+    s.fork(play_track, args=([track]))
+
 s.wait_for_children_to_finish()
-
-play_track(MidiTrack(cs_messages))
-
-
+print(midi_tracks)
+export_fugue(midi_tracks)
