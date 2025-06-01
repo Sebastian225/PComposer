@@ -53,7 +53,7 @@ def get_melody_in_range(notes: [Note], note_range):
         offset += 12
     elif offset > (high_bound - highest_note_value):
         offset = (high_bound - highest_note_value) // 12 * 12
-    print(offset)
+    # print(offset)
     fitted_notes = []
     for note in notes:
         new_pitch = note.pitch if note.pitch == 0 else note.pitch + offset
@@ -63,10 +63,77 @@ def get_melody_in_range(notes: [Note], note_range):
     return fitted_notes
 
 
+def check_subject_file_consistency(file_path):
+    notes = set(note_value.keys())
+    durations = set(note_duration.keys())
+
+    try:
+        with open(file_path, 'r') as file:
+            lines = file.read().splitlines()
+            for idx, line in enumerate(lines):
+                note = line.split()
+                if len(note) != 2:
+                    raise Exception(f"Note '{line}' on line {idx + 1} in the subject file is invalid.")
+                if note[0] not in notes:
+                    raise Exception(f"Note '{ note[0] }' on line { idx + 1 } in the subject file is invalid.")
+                if note[1] not in durations:
+                    raise Exception(f"Duration name '{ note[1] }' on line { idx + 1 } in the subject is invalid.")
+    except FileNotFoundError:
+        print("Subject file not found.")
+        return 0
+    except Exception as e:
+        print(e)
+        return 0
+
+    print("all good!")
+    return 1
+
+
+def invalid_cs(symbol):
+    if symbol[0] != 'C' or symbol[1] != 'S':
+        return 1
+    try:
+        number = int(symbol[2:])
+        if number < 1:
+            return 1
+    except ValueError:
+        return 1
+
+    return 0
+
+
+def check_structure_file_consistency(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            lines = file.read().splitlines()
+            if len(lines) != 4 and len(lines) != 5:
+                raise Exception(f"Invalid number of voices in the structure. Only 3 or 4 voices are supported currently.")
+            parts_number = len(lines[0].split())
+            for key in lines[0].split():
+                if key not in possible_keys:
+                    raise Exception(f"Key symbol '{key}' in the structure is invalid.")
+            for idx, voice in enumerate(lines[1:]):
+                if len(voice.split()) != parts_number:
+                    raise Exception(f"Wrong number of parts in voice {idx + 1} of the structure. Should be {parts_number}")
+                for part in voice.split():
+                    if part not in possible_parts and invalid_cs(part):
+                        raise Exception(f"Part symbol '{part}' in the structure is invalid.")
+
+    except FileNotFoundError:
+        print("Structure file not found.")
+        return 0
+    except Exception as e:
+        print(e)
+        return 0
+
+    print("all good!")
+    return 1
+
+
 def parse_structure(file_path: str):
     file = open(file_path)
     lines = file.read().splitlines()
-
+    # TODO check structure file consistency
     # first line is for keys involved
     keys = lines[0].split()
     parts = []
@@ -79,7 +146,7 @@ def parse_structure(file_path: str):
 
 def build_fugue(subject_file: str, structure_file: str):
     keys, parts = parse_structure(structure_file)
-
+    # TODO check subject file consistency
     s_file = open(subject_file)
     subject = Subject(s_file)
     ranges = get_melody_ranges(len(parts))
@@ -88,6 +155,7 @@ def build_fugue(subject_file: str, structure_file: str):
     distinct_cs = set()
     countersubjects_notes = []
 
+    # vezi ca nu treci prin tot
     for piece in parts[0]:
         if piece[0] == 'C' and piece[1] == 'S':
             distinct_cs.add(piece)
@@ -101,8 +169,10 @@ def build_fugue(subject_file: str, structure_file: str):
             countersubjects_notes.append(cs)
         distinct_cs.pop()
 
-    for cs in countersubjects_notes:
-        write_notes(cs)
+    # for cs in countersubjects_notes:
+    #     write_notes(cs)
+
+    print("counterpoints generated")
 
     tracks_notes = []
     for part in parts:
@@ -124,7 +194,7 @@ def build_fugue(subject_file: str, structure_file: str):
             modulation_function = modulate_to_subdominant
 
         for voice_idx, part in enumerate(parts):
-            print(part[idx])
+            # print(part[idx])
             if part[idx] == "S":
                 # subject
                 # modulate here
@@ -160,6 +230,8 @@ def build_fugue(subject_file: str, structure_file: str):
                 # empty space
                 tracks_notes[voice_idx].append(Note(0, empty_part_duration, True))
 
+    print("parts placed on structure")
+
     key, is_major = get_key_formatted_from_notes(subject.notes)
     dominant, tonic = get_final_cadence(key, is_major)
     ranges = get_melody_ranges(len(tracks_notes))
@@ -172,6 +244,8 @@ def build_fugue(subject_file: str, structure_file: str):
             melody = [Note(random.choice(dominant), duration), Note(random.choice(tonic), duration)]
         melody = get_melody_in_range(melody, ranges[len(tracks_notes) - idx - 1])
         track.extend(melody)
+
+    print("final candence done")
 
     return tracks_notes
 
@@ -187,7 +261,7 @@ def get_midi_tracks(tracks_list: [[Note]]):
     return midi_tracks
 
 
-def export_fugue(midi_tracks: [MidiTrack]):
+def export_fugue(midi_tracks: [MidiTrack], path="outputs/output.midi"):
     file = MidiFile(type=1)
     meta_track = MidiTrack()
     meta_track.append(MetaMessage('time_signature', numerator=4, denominator=4, clocks_per_click=24, notated_32nd_notes_per_beat=8, time=0))
@@ -198,4 +272,4 @@ def export_fugue(midi_tracks: [MidiTrack]):
     for track in midi_tracks:
         file.tracks.append(track)
 
-    file.save("outputs/output.midi")
+    file.save(path)

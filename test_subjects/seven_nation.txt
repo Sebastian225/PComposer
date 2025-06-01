@@ -1,0 +1,16 @@
+E3 quarter-point
+E3 eighth
+G3 eighth-point
+E3 eighth-point
+D3 eighth
+C3 half
+B2 quarter
+empty quarter
+E3 quarter-point
+E3 eighth
+G3 eighth-point
+E3 eighth-point
+D3 eighth
+C3 half
+B2 quarter
+empty quarter

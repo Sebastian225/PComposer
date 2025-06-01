@@ -1,4 +1,4 @@
-SUBJECT: subject.txt
+1 SUBJECT: subject.txt
 
 COUNTERSUBJECT1
 
@@ -30,7 +30,7 @@ COUNTERSUBJECT2
 70 quarter
 empty eighth
 
-SUBJECT: subject.txt
+2 SUBJECT: subject.txt
 
 COUNTERSUBJECT1
 
@@ -71,4 +71,314 @@ COUNTERSUBJECT2
 62 sixteenth
 63 sixteenth
 65 sixteenth
+
+3 SUBJECT: smoke on the water
+
+OUNTERSUBJECT1
+
+65 sixteenth
+77 sixteenth
+67 eighth-point
+65 quarter
+64 sixteenth
+70 eighth
+72 quarter
+69 quarter
+69 quarter
+70 half
+67 half
+64 quarter
+72 quarter
+70 half
+65 quarter
+64 eighth-point
+65 sixteenth
+
+COUNTERSUBJECT2
+
+69 sixteenth
+67 eighth
+65 sixteenth
+67 quarter
+69 sixteenth
+70 eighth-point
+72 quarter
+70 sixteenth
+69 sixteenth
+65 quarter-point
+empty eighth
+67 eighth
+70 quarter
+70 quarter-point
+65 eighth-point
+67 eighth
+69 sixteenth
+74 half
+65 half
+70 quarter
+
+4 SUBJECT: seven nation army
+
+COUNTERSUBJECT1
+
+67 quarter-point
+64 half
+65 eighth
+62 quarter
+60 half
+65 quarter
+65 quarter
+empty quarter
+67 quarter
+65 sixteenth
+67 sixteenth
+69 eighth
+71 quarter
+empty quarter
+67 quarter
+62 eighth-point
+60 sixteenth
+
+COUNTERSUBJECT2
+
+64 sixteenth
+64 sixteenth
+67 eighth
+71 quarter
+71 quarter
+71 quarter
+74 quarter
+76 quarter
+81 quarter
+71 quarter
+71 quarter
+71 half
+72 sixteenth
+71 eighth-point
+67 quarter-point
+81 eighth
+76 quarter
+69 sixteenth
+empty sixteenth
+empty sixteenth
+65 sixteenth
+
+5 SUBJECT: kingdom of cold flesh
+
+COUNTERSUBJECT1
+
+80 quarter
+82 half
+70 quarter
+70 quarter
+70 quarter
+70 sixteenth
+73 half
+77 eighth-point
+72 quarter
+72 eighth-point
+68 sixteenth
+
+COUNTERSUBJECT2
+
+75 quarter
+67 half
+68 quarter
+empty half
+67 eighth
+68 eighth
+70 half
+68 quarter
+empty eighth-point
+67 sixteenth
+
+6 SUBJECT: SOUL KITCHEN
+
+COUNTERSUBJECT1
+
+78 sixteenth
+71 eighth
+69 sixteenth
+69 quarter
+69 eighth-point
+67 sixteenth
+71 eighth
+66 eighth
+67 quarter
+67 quarter
+62 quarter
+67 quarter
+
+COUNTERSUBJECT2
+
+76 quarter-point
+83 quarter-point
+76 quarter
+71 quarter
+71 quarter
+67 quarter
+71 quarter
+
+7 subject: subject_bwv_853.txt
+
+COUNTERSUBJECT1
+
+66 eighth
+63 eighth
+68 half
+63 quarter
+65 eighth
+63 eighth-point
+78 eighth
+70 eighth
+75 eighth-point
+63 quarter
+empty quarter
+65 quarter
+71 eighth
+68 eighth
+63 eighth
+63 eighth
+
+COUNTERSUBJECT2
+
+empty sixteenth
+66 eighth-point
+68 sixteenth
+70 eighth
+68 eighth-point
+70 eighth
+70 half
+71 sixteenth
+70 sixteenth
+68 sixteenth
+66 sixteenth
+63 quarter
+65 half
+71 quarter
+65 quarter
+63 eighth
+65 sixteenth
+66 sixteenth
+
+8 SUBJECT: nothing else matters
+
+COUNTERSUBJECT1
+
+71 quarter
+71 quarter
+73 eighth
+empty quarter-point
+69 quarter
+66 quarter
+69 quarter
+79 quarter
+empty quarter
+66 eighth-point
+69 eighth-point
+67 sixteenth
+empty sixteenth
+66 quarter
+
+COUNTERSUBJECT2
+
+67 sixteenth
+67 sixteenth
+66 sixteenth
+66 sixteenth
+69 half
+71 eighth
+empty eighth
+66 quarter
+78 sixteenth
+62 eighth-point
+66 quarter-point
+66 sixteenth
+66 sixteenth
+66 quarter
+empty eighth
+empty eighth
+66 eighth
+66 eighth
+64 sixteenth
+66 sixteenth
+empty sixteenth
+75 sixteenth
+
+9 subject: nothing else matters
+
+COUNTERSUBJECT1
+
+empty sixteenth
+empty sixteenth
+67 eighth
+66 eighth
+64 quarter-point
+66 eighth
+69 eighth
+67 eighth
+75 half
+71 eighth-point
+72 eighth-point
+66 sixteenth
+71 eighth-point
+67 quarter
+71 quarter
+67 quarter
+
+COUNTERSUBJECT2
+
+71 eighth
+71 sixteenth
+71 sixteenth
+69 sixteenth
+67 sixteenth
+69 eighth
+71 half
+66 eighth-point
+empty eighth-point
+empty eighth
+71 quarter
+69 eighth
+67 eighth
+69 quarter
+62 quarter
+66 quarter
+67 eighth
+69 sixteenth
+67 sixteenth
+
+10 subject: nothing else matters
+
+COUNTERSUBJECT1
+
+71 sixteenth
+69 sixteenth
+66 quarter-point
+67 eighth
+69 quarter-point
+64 quarter
+69 quarter
+64 quarter
+67 half
+69 sixteenth
+67 quarter-point
+66 sixteenth
+69 quarter
+
+COUNTERSUBJECT2
+
+66 eighth-point
+67 sixteenth
+69 half
+64 eighth-point
+67 sixteenth
+66 eighth
+64 eighth
+empty quarter
+62 quarter-point
+64 eighth
+62 half
+73 quarter
+78 quarter
 

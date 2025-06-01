@@ -1,0 +1,4 @@
+T D T 
+S CS1 CS2 
+E A CS1 
+E E S

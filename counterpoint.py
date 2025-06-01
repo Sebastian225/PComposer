@@ -32,8 +32,6 @@ def is_in_scale(pitch: int, key: str, is_major: bool):
 
 
 def generate_random_genome(total_duration: int, key: str, is_major: bool, octave: int):
-    # TODO generate empty notes also
-    # TODO make optimisation for getting better melodies
     scale = major_degrees if is_major else minor_degrees
     global SCALE
     SCALE = major_degrees if is_major else minor_degrees
@@ -194,7 +192,7 @@ def fitness(genome: [Note], base_notes: [Note]):
 
     key, is_major = get_key_formatted_from_notes(base_notes)
 
-    # melody evaluation
+    # melody and rhythm evaluation
     for note in genome[1:]:
         if note.duration not in note_duration_names:
             return 0
@@ -244,11 +242,11 @@ def generate_counterpoint(base_notes):
         population.append(genome)
 
     for i in range(NUMBER_OF_GENERATIONS):
-        print("****************************************************************************************************")
-        print("GENERATION " + str(i))
+        # print("****************************************************************************************************")
+        # print("GENERATION " + str(i))
         last_population = sorted(population, key=lambda g: fitness(g, base_notes), reverse=True)
-        print(f"BEST SCORE: {fitness(last_population[0], base_notes)}")
-        print(f"AVERAGE SCORE: {(sum([fitness(g, base_notes) for g in last_population]) / POPULATION_SIZE)}")
+        # print(f"BEST SCORE: {fitness(last_population[0], base_notes)}")
+        # print(f"AVERAGE SCORE: {(sum([fitness(g, base_notes) for g in last_population]) / POPULATION_SIZE)}")
         population = [last_population[0]]
         elites_count = 1
         if POPULATION_SIZE % 2 == 0:
@@ -272,7 +270,7 @@ def generate_counterpoint(base_notes):
             best_genome = g
             best_score = f
 
-    print("****************************************************************************************************")
+    # print("****************************************************************************************************")
     print("RESULT SCORE: " + str(best_score))
 
     return best_genome

@@ -177,3 +177,7 @@ is_consonant_interval = {  # true = consonant
     11: False,  # Major seventh
     12: True   # Octave
 }
+
+possible_keys = {'T', 'D', 'R', 'DR', 'SD'}
+
+possible_parts = {'S', 'A', 'FC', 'E'}  # without cs
