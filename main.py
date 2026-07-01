@@ -4,9 +4,10 @@ from structure_parser import *
 import sys
 
 
-s = Session()
+# s = Session()
+
 # piano = s.new_part('church organ')  # pt little fugue
-piano = s.new_part('piano')
+# piano = s.new_part('piano')
 # piano = s.new_part('clarinet')
 # piano = s.new_part('guitar')
 
@@ -16,21 +17,21 @@ piano = s.new_part('piano')
 # fugue.save("outputs/result1.midi")
 
 
-def play_track(track: MidiTrack):
-    global tempo
-    notes_playing = {}
-    for msg in track:
-        wait(tick2second(msg.time, 240, tempo), "time")
-        if msg.is_meta:
-            if msg.type == 'set_tempo':
-                tempo = msg.tempo
-        else:
-            if msg.type == 'note_on':
-                notes_playing[msg.note] = piano.start_note(msg.note, msg.velocity / 127)
-            elif msg.type == 'note_off':
-                if msg.note in notes_playing:
-                    piano.end_note(notes_playing[msg.note])
-                    notes_playing.pop(msg.note)
+# def play_track(track: MidiTrack):
+#     global tempo
+#     notes_playing = {}
+#     for msg in track:
+#         wait(tick2second(msg.time, 240, tempo), "time")
+#         if msg.is_meta:
+#             if msg.type == 'set_tempo':
+#                 tempo = msg.tempo
+#         else:
+#             if msg.type == 'note_on':
+#                 notes_playing[msg.note] = piano.start_note(msg.note, msg.velocity / 127)
+#             elif msg.type == 'note_off':
+#                 if msg.note in notes_playing:
+#                     piano.end_note(notes_playing[msg.note])
+#                     notes_playing.pop(msg.note)
 
 
 tempo = 600000
@@ -60,10 +61,10 @@ def generate_fugue(subject_path, structure_path, output_path, output_name, index
     print(output, "done!")
 
 
-# generate_fugue("test_subjects/fairouz.txt", "structures/3-part.txt", "prezentare", "fairouz2")
+# generate_fugue("test_subjects/fairouz.txt", "structures/3-part.txt", "prezentare", "fugue")
 
 print(sys.argv)
-print(sys.prefix != sys.base_prefix)
+print("is running in venv: ", sys.prefix != sys.base_prefix)
 print("merge")
 
 if len(sys.argv) == 6:

@@ -7,7 +7,7 @@ from constants import *
 from key_finder import get_key_formatted_from_notes
 
 POPULATION_SIZE = 300  # 20
-NUMBER_OF_GENERATIONS = 20  # 50
+NUMBER_OF_GENERATIONS = 50  # 20
 # mutations
 MERGE_RATE = 0.3
 DUPLICATION_RATE = 0.05
@@ -17,7 +17,7 @@ SCALE = []
 EMPTY_NOTE_RATE = 0.1
 
 
-def get_total_duration(notes: [Note]):
+def get_total_duration(notes: list[Note]):
     result = 0
     for note in notes:
         result += note.duration
@@ -105,9 +105,10 @@ def mutate(notes):
     return notes
 
 
-def crossover(genome1: [Note], genome2: [Note]):
+def crossover(genome1: list[Note], genome2: list[Note]):
     # split by bars to make sure we don't alter the durations
     bars_nr = get_total_duration(genome1) // note_duration['full']
+    bars_nr = int(bars_nr)
     if bars_nr > 1:
         split_position = random.randrange(1, bars_nr)
     else:
@@ -170,7 +171,7 @@ def get_pitches_list(notes1, notes2):
     return intervals
 
 
-def fitness(genome: [Note], base_notes: [Note]):
+def fitness(genome: list[Note], base_notes: list[Note]):
     intervals = get_pitches_list(genome, base_notes)
     last_interval = None
     score = 300

@@ -1,0 +1,33 @@
+{
+    "version": "1.0.0",
+    "configurations": [
+        {
+            "name": "Fairouz (venv)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/main.py",
+            "console": "integratedTerminal",
+            "args": [
+                "test_subjects/fairouz.txt",
+                "structures/3-part.txt",
+                "1",
+                "prezentare",
+                "fairouz_fugue"
+            ]
+        },
+        {
+            "name": "bwv_848 (venv)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/main.py",
+            "console": "integratedTerminal",
+            "args": [
+                "test_subjects/subject_bwv_848.txt",
+                "structures/3-part-edited.txt",
+                "2",
+                "prezentare",
+                "bwv_848_fugue"
+            ]
+        }
+    ]
+}
